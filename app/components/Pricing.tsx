@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { tailwindColors, typography, spacing, shadows } from "@/app/styles/colors";
 
 const plans = [
   {
@@ -47,18 +48,18 @@ const plans = [
 
 const Pricing: React.FC = () => {
   return (
-    <section id="cennik" className="py-20 bg-white dark:bg-slate-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="cennik" className={`${spacing.section} bg-slate-950`}>
+      <div className={spacing.container}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
-            Wybierz swój <span className="text-indigo-600">karnet</span>
+          <h2 className={`${typography.h2} ${tailwindColors.textPrimary}`}>
+            Wybierz swój <span className={tailwindColors.textAccent}>karnet</span>
           </h2>
-          <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
+          <p className={`mt-4 text-lg ${tailwindColors.textSecondary}`}>
             Elastyczne plany dopasowane do Twoich potrzeb
           </p>
         </motion.div>
@@ -74,8 +75,8 @@ const Pricing: React.FC = () => {
               whileHover={{ scale: 1.02 }}
               className={`relative p-8 rounded-2xl transition-all ${
                 plan.popular
-                  ? "bg-indigo-600 text-white shadow-xl shadow-indigo-500/30"
-                  : "bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
+                  ? `bg-indigo-600 text-white ${shadows.card} shadow-indigo-500/30`
+                  : `${tailwindColors.bgDark} ${tailwindColors.borderDefault} border`
               }`}
             >
               {plan.popular && (
@@ -86,27 +87,15 @@ const Pricing: React.FC = () => {
                 </div>
               )}
 
-              <h3
-                className={`text-xl font-bold ${
-                  plan.popular ? "text-white" : "text-slate-900 dark:text-white"
-                }`}
-              >
+              <h3 className={`text-xl font-bold ${plan.popular ? "text-white" : tailwindColors.textPrimary}`}>
                 {plan.name}
               </h3>
 
               <div className="mt-4 flex items-baseline">
-                <span
-                  className={`text-5xl font-extrabold ${
-                    plan.popular ? "text-white" : "text-slate-900 dark:text-white"
-                  }`}
-                >
+                <span className={`text-5xl font-extrabold ${plan.popular ? "text-white" : tailwindColors.textPrimary}`}>
                   {plan.price}
                 </span>
-                <span
-                  className={`ml-2 ${
-                    plan.popular ? "text-indigo-200" : "text-slate-500"
-                  }`}
-                >
+                <span className={`ml-2 ${plan.popular ? "text-indigo-200" : tailwindColors.textMuted}`}>
                   zł/{plan.period}
                 </span>
               </div>
@@ -114,18 +103,8 @@ const Pricing: React.FC = () => {
               <ul className="mt-8 space-y-4">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-center gap-3">
-                    <Check
-                      className={`w-5 h-5 flex-shrink-0 ${
-                        plan.popular ? "text-indigo-200" : "text-indigo-600"
-                      }`}
-                    />
-                    <span
-                      className={
-                        plan.popular
-                          ? "text-indigo-100"
-                          : "text-slate-600 dark:text-slate-400"
-                      }
-                    >
+                    <Check className={`w-5 h-5 flex-shrink-0 ${plan.popular ? "text-indigo-200" : "text-indigo-600"}`} />
+                    <span className={plan.popular ? "text-indigo-100" : tailwindColors.textSecondary}>
                       {feature}
                     </span>
                   </li>
@@ -136,7 +115,7 @@ const Pricing: React.FC = () => {
                 className={`mt-8 w-full py-3 px-6 rounded-xl font-semibold transition-all hover:scale-105 ${
                   plan.popular
                     ? "bg-white text-indigo-600 hover:bg-slate-100"
-                    : "bg-indigo-600 text-white hover:bg-indigo-700"
+                    : tailwindColors.buttonPrimary
                 }`}
               >
                 Kup teraz

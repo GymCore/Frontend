@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { tailwindColors, typography, spacing } from "@/app/styles/colors";
 
 const stats = [
   { value: 500, suffix: "+", label: "Aktywnych klubowiczów" },
@@ -50,7 +51,7 @@ const Counter: React.FC<CounterProps> = ({ target, suffix }) => {
   }, [target, hasAnimated]);
 
   return (
-    <span ref={ref} className="text-4xl sm:text-5xl font-extrabold text-indigo-600 dark:text-indigo-400">
+    <span ref={ref} className={`text-4xl sm:text-5xl font-extrabold ${tailwindColors.textAccent}`}>
       {count}
       {suffix}
     </span>
@@ -59,15 +60,15 @@ const Counter: React.FC<CounterProps> = ({ target, suffix }) => {
 
 const Stats: React.FC = () => {
   return (
-    <section className="py-20 bg-slate-50 dark:bg-slate-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className={`${spacing.section} ${tailwindColors.bgDark}`}>
+      <div className={spacing.container}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+          <h2 className={`${typography.h2} ${tailwindColors.textPrimary}`}>
             Liczby mówią same za siebie
           </h2>
         </motion.div>
@@ -80,10 +81,10 @@ const Stats: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="text-center p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-sm"
+              className={`text-center p-6 ${tailwindColors.bgCard} rounded-2xl shadow-sm`}
             >
               <Counter target={stat.value} suffix={stat.suffix} />
-              <p className="mt-2 text-slate-600 dark:text-slate-400 font-medium">
+              <p className={`mt-2 ${tailwindColors.textSecondary} font-medium`}>
                 {stat.label}
               </p>
             </motion.div>
