@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 import { gradients, tailwindColors } from "@/app/styles/colors";
 
 const navLinks = [
@@ -37,12 +38,12 @@ const Navbar: React.FC = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <button className="px-4 py-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
+            <Link href="#" className="px-4 py-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
               Zaloguj się
-            </button>
-            <button className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${tailwindColors.buttonPrimary}`}>
+            </Link>
+            <Link href="/register" className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${tailwindColors.buttonPrimary}`}>
               Rejestracja
-            </button>
+            </Link>
           </div>
 
           <button
@@ -76,12 +77,12 @@ const Navbar: React.FC = () => {
                 </a>
               ))}
               <div className={`pt-4 space-y-2 ${tailwindColors.borderDefault} border-t`}>
-                <button className={`w-full px-4 py-2 text-sm font-medium text-indigo-400 border border-indigo-400 rounded-lg hover:bg-indigo-400/10 transition-colors`}>
+                <Link href="#" className={`block text-center px-4 py-2 text-sm font-medium text-indigo-400 border border-indigo-400 rounded-lg hover:bg-indigo-400/10 transition-colors`}>
                   Zaloguj się
-                </button>
-                <button className={`w-full px-4 py-2 text-sm font-medium rounded-lg ${tailwindColors.buttonPrimary}`}>
+                </Link>
+                <Link href="/register" className={`block text-center px-4 py-2 text-sm font-medium rounded-lg ${tailwindColors.buttonPrimary}`}>
                   Rejestracja
-                </button>
+                </Link>
               </div>
             </div>
           </motion.div>
