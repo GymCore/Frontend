@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Link from "next/link";
 import { gradients, tailwindColors } from "@/app/styles/colors";
 
 const Navbar: React.FC = () => {
@@ -19,10 +19,10 @@ const Navbar: React.FC = () => {
           </Link>
 
           <div className="hidden md:flex items-center gap-3">
-            <Link href="/logowanie" className="px-4 py-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
+            <Link href="/login" className="px-4 py-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
               Zaloguj się
             </Link>
-            <Link href="/rejestracja" className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${tailwindColors.buttonPrimary}`}>
+            <Link href="/register" className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${tailwindColors.buttonPrimary}`}>
               Rejestracja
             </Link>
           </div>
@@ -47,10 +47,10 @@ const Navbar: React.FC = () => {
             className={`md:hidden ${tailwindColors.bgDark} ${tailwindColors.borderDefault} border-b`}
           >
             <div className="px-4 py-4 space-y-2">
-              <Link href="/logowanie" className={`block w-full px-4 py-2 text-sm font-medium text-center text-indigo-400 border border-indigo-400 rounded-lg hover:bg-indigo-400/10 transition-colors`}>
+              <Link href="/login" className={`block text-center px-4 py-2 text-sm font-medium text-indigo-400 border border-indigo-400 rounded-lg hover:bg-indigo-400/10 transition-colors`}>
                 Zaloguj się
               </Link>
-              <Link href="/rejestracja" className={`block w-full px-4 py-2 text-sm font-medium text-center rounded-lg ${tailwindColors.buttonPrimary}`}>
+              <Link href="/register" className={`block text-center px-4 py-2 text-sm font-medium rounded-lg ${tailwindColors.buttonPrimary}`}>
                 Rejestracja
               </Link>
             </div>
