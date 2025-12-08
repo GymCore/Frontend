@@ -1,8 +1,8 @@
 import Navbar from "./globals/components/Navbar";
-import Hero from "./globals/components/Hero";
-import Features from "./globals/components/Features";
-import Pricing from "./globals/components/Pricing";
-import Stats from "./globals/components/Stats";
+import Hero from "./homePage/components/Hero";
+import Features from "./homePage/components/Features";
+import Pricing from "./homePage/components/Pricing";
+import Stats from "./homePage/components/Stats";
 import Footer from "./globals/components/Footer";
 import { tailwindColors } from "./styles/colors";
 
