@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import { Instagram, Facebook, Youtube, Mail, MapPin, Phone } from "lucide-react";
 import { tailwindColors } from "@/app/styles/colors";
 
@@ -9,30 +10,36 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
               GymCore
-            </span>
+            </Link>
             <p className={`mt-4 text-sm ${tailwindColors.textSecondary}`}>
               Nowoczesna siłownia dla tych, którzy chcą osiągnąć więcej. Dołącz
               do naszej społeczności już dziś.
             </p>
             <div className="mt-6 flex gap-4">
               <a
-                href="#"
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`p-2 ${tailwindColors.bgCard} rounded-lg hover:bg-indigo-600 transition-colors`}
                 aria-label="Instagram"
               >
                 <Instagram size={20} />
               </a>
               <a
-                href="#"
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`p-2 ${tailwindColors.bgCard} rounded-lg hover:bg-indigo-600 transition-colors`}
                 aria-label="Facebook"
               >
                 <Facebook size={20} />
               </a>
               <a
-                href="#"
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`p-2 ${tailwindColors.bgCard} rounded-lg hover:bg-indigo-600 transition-colors`}
                 aria-label="Youtube"
               >
@@ -45,24 +52,19 @@ const Footer: React.FC = () => {
             <h4 className={`font-semibold ${tailwindColors.textPrimary} mb-4`}>Szybkie linki</h4>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#oferta" className={`hover:${tailwindColors.textAccent} transition-colors`}>
+                <Link href="/offer" className="hover:text-indigo-400 transition-colors">
                   Oferta
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#cennik" className="hover:text-indigo-400 transition-colors">
+                <Link href="/pricing" className="hover:text-indigo-400 transition-colors">
                   Cennik
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-indigo-400 transition-colors">
-                  Zajęcia grupowe
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-indigo-400 transition-colors">
+                <Link href="/trainers" className="hover:text-indigo-400 transition-colors">
                   Trenerzy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -71,24 +73,19 @@ const Footer: React.FC = () => {
             <h4 className={`font-semibold ${tailwindColors.textPrimary} mb-4`}>Wsparcie</h4>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="hover:text-indigo-400 transition-colors">
+                <Link href="/faq" className="hover:text-indigo-400 transition-colors">
                   FAQ
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-indigo-400 transition-colors">
+                <Link href="/terms" className="hover:text-indigo-400 transition-colors">
                   Regulamin
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-indigo-400 transition-colors">
+                <Link href="/privacy-policy" className="hover:text-indigo-400 transition-colors">
                   Polityka prywatności
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-indigo-400 transition-colors">
-                  Kontakt
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
