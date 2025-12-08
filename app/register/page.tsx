@@ -9,28 +9,15 @@ import {
   shadows,
   animations,
 } from "@/app/styles/colors";
+import Navbar from "../globals/components/Navbar";
 
 export default function RegisterPage() {
   return (
     <div className={`relative min-h-screen ${gradients.hero}`}>
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
       <div className={`absolute inset-0 ${gradients.overlay}`} />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="flex items-center justify-between mb-10 text-sm text-slate-300">
-          <Link href="/" className="flex items-center gap-2 hover:text-white transition-colors">
-            <span className={`font-semibold text-lg ${gradients.logo}`}>GymCore</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <span className="text-slate-400 hidden sm:inline">Masz konto?</span>
-            <Link
-              href="#"
-              className="px-4 py-2 rounded-lg border border-slate-700 text-slate-200 hover:border-indigo-400 hover:text-white transition-all"
-            >
-              Zaloguj się
-            </Link>
-          </div>
-        </div>
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pt-28">
+        <Navbar />
 
         <motion.div
           initial={animations.fadeInUp.initial}
