@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowRight, Lock } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import {
   gradients,
   tailwindColors,
@@ -13,6 +15,41 @@ import Navbar from "@/app/globals/components/Navbar";
 import Footer from "@/app/globals/components/Footer";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        router.push("/");
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      setError("Wystąpił błąd podczas logowania");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className={`min-h-screen flex flex-col ${tailwindColors.bgDark}`}>
       <Navbar />
@@ -36,12 +73,20 @@ export default function LoginPage() {
             </div>
 
             <div className={`${tailwindColors.card} ${shadows.card} p-8 backdrop-blur`}>
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit}>
+                {error && (
+                  <div className="p-3 rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 text-sm">
+                    {error}
+                  </div>
+                )}
                 <label className="block space-y-2">
                   <span className="text-sm text-slate-200">E-mail</span>
                   <input
                     type="email"
                     placeholder="jan@przyklad.pl"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                     className="w-full rounded-lg bg-slate-900/60 border border-slate-700 text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </label>
@@ -59,6 +104,9 @@ export default function LoginPage() {
                   <input
                     type="password"
                     placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                     className="w-full rounded-lg bg-slate-900/60 border border-slate-700 text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </label>
@@ -66,6 +114,8 @@ export default function LoginPage() {
                 <label className="flex items-center gap-3 text-sm text-slate-300">
                   <input
                     type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
                     className="h-4 w-4 rounded border-slate-600 bg-slate-900/60 text-indigo-500 focus:ring-indigo-500"
                   />
                   <span>Zapamiętaj mnie</span>
@@ -73,10 +123,20 @@ export default function LoginPage() {
 
                 <button
                   type="submit"
-                  className={`w-full py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all hover:scale-[1.01] ${tailwindColors.buttonPrimary} ${shadows.button}`}
+                  disabled={loading}
+                  className={`w-full py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed ${tailwindColors.buttonPrimary} ${shadows.button}`}
                 >
-                  Zaloguj się
-                  <ArrowRight size={18} />
+                  {loading ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Logowanie...
+                    </>
+                  ) : (
+                    <>
+                      Zaloguj się
+                      <ArrowRight size={18} />
+                    </>
+                  )}
                 </button>
               </form>
 

@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Loader2 } from "lucide-react";
 import {
   gradients,
   tailwindColors,
@@ -10,14 +12,64 @@ import {
   animations,
 } from "@/app/styles/colors";
 import Navbar from "../globals/components/Navbar";
+import Footer from "../globals/components/Footer";
+import { signUp } from "@/lib/auth-client";
 
 export default function RegisterPage() {
-  return (
-    <div className={`relative min-h-screen ${gradients.hero}`}>
-      <div className={`absolute inset-0 ${gradients.overlay}`} />
+  const router = useRouter();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pt-28">
-        <Navbar />
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError("Hasła nie są identyczne");
+      return;
+    }
+
+    if (!acceptTerms) {
+      setError("Musisz zaakceptować regulamin");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const result = await signUp.email({
+        email,
+        password,
+        name: `${firstName} ${lastName}`,
+        callbackURL: "/",
+      });
+
+      if (result.error) {
+        setError(result.error.message || "Błąd rejestracji");
+      } else {
+        router.push("/");
+      }
+    } catch (err) {
+      setError("Wystąpił błąd podczas rejestracji");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className={`min-h-screen flex flex-col ${tailwindColors.bgDark}`}>
+      <Navbar />
+
+      <main className={`flex-1 relative ${gradients.hero}`}>
+        <div className={`absolute inset-0 ${gradients.overlay}`} />
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pt-28">
 
         <motion.div
           initial={animations.fadeInUp.initial}
@@ -34,13 +86,21 @@ export default function RegisterPage() {
           </div>
 
           <div className={`${tailwindColors.card} ${shadows.card} p-8 backdrop-blur`}>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              {error && (
+                <div className="p-3 rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
               <div className="grid sm:grid-cols-2 gap-4">
                 <label className="space-y-2">
                   <span className="text-sm text-slate-200">Imię</span>
                   <input
                     type="text"
                     placeholder="Jan"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
                     className="w-full rounded-lg bg-slate-900/60 border border-slate-700 text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </label>
@@ -49,6 +109,9 @@ export default function RegisterPage() {
                   <input
                     type="text"
                     placeholder="Kowalski"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
                     className="w-full rounded-lg bg-slate-900/60 border border-slate-700 text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </label>
@@ -59,6 +122,9 @@ export default function RegisterPage() {
                 <input
                   type="email"
                   placeholder="jan@przyklad.pl"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                   className="w-full rounded-lg bg-slate-900/60 border border-slate-700 text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </label>
@@ -69,6 +135,9 @@ export default function RegisterPage() {
                   <input
                     type="password"
                     placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                     className="w-full rounded-lg bg-slate-900/60 border border-slate-700 text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </label>
@@ -77,6 +146,9 @@ export default function RegisterPage() {
                   <input
                     type="password"
                     placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
                     className="w-full rounded-lg bg-slate-900/60 border border-slate-700 text-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </label>
@@ -85,6 +157,8 @@ export default function RegisterPage() {
               <label className="flex items-start gap-3 text-sm text-slate-300">
                 <input
                   type="checkbox"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
                   className="mt-1 h-4 w-4 rounded border-slate-600 bg-slate-900/60 text-indigo-500 focus:ring-indigo-500"
                 />
                 <span>
@@ -95,10 +169,20 @@ export default function RegisterPage() {
 
               <button
                 type="submit"
-                className={`w-full py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all hover:scale-[1.01] ${tailwindColors.buttonPrimary} ${shadows.button}`}
+                disabled={loading}
+                className={`w-full py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed ${tailwindColors.buttonPrimary} ${shadows.button}`}
               >
-                Załóż konto
-                <ArrowRight size={18} />
+                {loading ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" />
+                    Rejestracja...
+                  </>
+                ) : (
+                  <>
+                    Załóż konto
+                    <ArrowRight size={18} />
+                  </>
+                )}
               </button>
             </form>
 
@@ -114,7 +198,10 @@ export default function RegisterPage() {
             </div>
           </div>
         </motion.div>
-      </div>
+        </div>
+      </main>
+
+      <Footer />
     </div>
   );
 }

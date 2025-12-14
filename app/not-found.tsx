@@ -13,7 +13,6 @@ export default function NotFound() {
       <Navbar />
 
       <main className={`min-h-screen flex items-center justify-center ${gradients.hero}`}>
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20" />
         
         <div className="relative z-10 text-center px-4">
           <motion.div
