@@ -1,12 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import Link from "next/link";
 import { gradients, tailwindColors } from "@/app/styles/colors";
+import { useSession, signOut } from "@/lib/auth-client";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md ${tailwindColors.borderDefault} border-b`}>
@@ -19,12 +21,29 @@ const Navbar: React.FC = () => {
           </Link>
 
           <div className="hidden md:flex items-center gap-3">
-            <Link href="/login" className="px-4 py-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
-              Zaloguj się
-            </Link>
-            <Link href="/register" className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${tailwindColors.buttonPrimary}`}>
-              Rejestracja
-            </Link>
+            {session?.user ? (
+              <>
+                <Link href="/account" className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-2 ${tailwindColors.buttonPrimary}`}>
+                  <User size={18} />
+                  Moje konto
+                </Link>
+                <button
+                  onClick={() => signOut()}
+                  className="px-4 py-2 text-sm font-medium text-red-400 hover:text-red-300 transition-colors"
+                >
+                  Wyloguj
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="px-4 py-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
+                  Zaloguj się
+                </Link>
+                <Link href="/register" className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${tailwindColors.buttonPrimary}`}>
+                  Rejestracja
+                </Link>
+              </>
+            )}
           </div>
 
           <button
@@ -47,12 +66,29 @@ const Navbar: React.FC = () => {
             className={`md:hidden ${tailwindColors.bgDark} ${tailwindColors.borderDefault} border-b`}
           >
             <div className="px-4 py-4 space-y-2">
-              <Link href="/login" className={`block text-center px-4 py-2 text-sm font-medium text-indigo-400 border border-indigo-400 rounded-lg hover:bg-indigo-400/10 transition-colors`}>
-                Zaloguj się
-              </Link>
-              <Link href="/register" className={`block text-center px-4 py-2 text-sm font-medium rounded-lg ${tailwindColors.buttonPrimary}`}>
-                Rejestracja
-              </Link>
+              {session?.user ? (
+                <>
+                  <Link href="/account" className={`flex text-center px-4 py-2 text-sm font-medium rounded-lg items-center justify-center gap-2 ${tailwindColors.buttonPrimary}`}>
+                    <User size={18} />
+                    Moje konto
+                  </Link>
+                  <button
+                    onClick={() => signOut()}
+                    className="w-full px-4 py-2 text-sm font-medium text-red-400 border border-red-400 rounded-lg hover:bg-red-400/10 transition-colors"
+                  >
+                    Wyloguj
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className={`block text-center px-4 py-2 text-sm font-medium text-indigo-400 border border-indigo-400 rounded-lg hover:bg-indigo-400/10 transition-colors`}>
+                    Zaloguj się
+                  </Link>
+                  <Link href="/register" className={`block text-center px-4 py-2 text-sm font-medium rounded-lg ${tailwindColors.buttonPrimary}`}>
+                    Rejestracja
+                  </Link>
+                </>
+              )}
             </div>
           </motion.div>
         )}

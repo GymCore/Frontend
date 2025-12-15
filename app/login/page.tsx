@@ -13,6 +13,7 @@ import {
 } from "@/app/styles/colors";
 import Navbar from "@/app/globals/components/Navbar";
 import Footer from "@/app/globals/components/Footer";
+import { signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -28,20 +29,15 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+      const result = await signIn.email({
+        email,
+        password,
       });
 
-      const data = await response.json();
-
-      if (data.success) {
-        router.push("/");
+      if (result.error) {
+        setError(result.error.message || "Nieprawidłowy email lub hasło");
       } else {
-        setError(data.message);
+        router.push("/");
       }
     } catch (err) {
       setError("Wystąpił błąd podczas logowania");
